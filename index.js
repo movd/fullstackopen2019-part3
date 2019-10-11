@@ -47,13 +47,26 @@ app.get("/api/persons", (req, res) => {
 
 app.post("/api/persons", (req, res) => {
   let person = req.body;
+
+  if (!person.name) {
+    return res.status(400).json({ error: "name must be given" });
+  }
+
+  if (!person.number) {
+    return res.status(400).json({ error: "number must be give" });
+  }
+
+  if (persons.find(p => p.name === person.name)) {
+    return res.status(400).json({ error: "name must be unique" });
+  }
+
   let randomId = Math.floor(Math.random() * 900000) + 100000;
   person = { ...person, id: randomId };
   console.log(person);
 
   persons = persons.concat(person);
 
-  res.json(persons);
+  res.json(person);
 });
 
 app.get("/api/persons/:id", (req, res) => {
