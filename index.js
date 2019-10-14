@@ -1,8 +1,11 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+const morgan = require("morgan");
 
 app.use(bodyParser.json());
+// Add the morgan middleware to your application for logging. Configure it to log messages to your console based on the tiny configuration.
+app.use(morgan("tiny"));
 
 let persons = [
   {
@@ -84,6 +87,12 @@ app.delete("/api/persons/:id", (req, res) => {
   persons = persons.filter(p => p.id !== id);
   res.status(204).end();
 });
+
+const unknownEndpoint = (req, res) => {
+  res.status(404).send({ error: "unknown endpoint" });
+};
+
+app.use(unknownEndpoint);
 
 const PORT = 3001;
 app.listen(PORT, () => {
