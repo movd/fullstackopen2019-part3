@@ -4,8 +4,19 @@ const bodyParser = require("body-parser");
 const morgan = require("morgan");
 
 app.use(bodyParser.json());
-// Add the morgan middleware to your application for logging. Configure it to log messages to your console based on the tiny configuration.
-app.use(morgan("tiny"));
+
+// Login Setup using Morgan
+// Create custom token: Return POST Body
+morgan.token("postBody", (req, res) => {
+  if (req.method == "POST") {
+    return JSON.stringify(req.body);
+  }
+});
+
+const loggerFormat =
+  ":method :url :status :res[content-length] - :response-time ms :postBody";
+
+app.use(morgan(loggerFormat));
 
 let persons = [
   {
