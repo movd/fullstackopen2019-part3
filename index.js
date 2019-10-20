@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 // Login Setup using Morgan
 // Create custom token: Return POST Body
 morgan.token("postBody", (req, res) => {
-  if (req.method == "POST" || req.method == "PUT") {
+  if (req.method === "POST" || req.method === "PUT") {
     return JSON.stringify(req.body);
   }
 });
