@@ -1,5 +1,10 @@
-const mongoose = require("mongoose").set("useUnifiedTopology", true);
+// const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 const { MONGODB_URI } = process.env;
+
+// Fix deprecation warnings:
+mongoose.set("useUnifiedTopology", true);
+mongoose.set("useFindAndModify", false);
 
 console.log("connecting to", MONGODB_URI);
 
